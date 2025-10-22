@@ -3129,4 +3129,7 @@ void nsvgDelete(NSVGimage* image)
 
 #endif // NANOSVG_IMPLEMENTATION
 
+// Include rasterizer declarations for Swift (outside implementation guard)
+#include "nanosvgrast.h"
+
 #endif // NANOSVG_H

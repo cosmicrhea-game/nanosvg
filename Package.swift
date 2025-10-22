@@ -1,4 +1,4 @@
-// swift-tools-version: 6.2
+// swift-tools-version: 6.1
 
 import PackageDescription
 
@@ -13,7 +13,7 @@ let package = Package(
     .target(
       name: "NanoSVG",
       dependencies: ["CNanoSVG"],
-      path: "Swift/Sources"
+      path: "Swift/Sources",
     ),
     .target(
       name: "CNanoSVG",
@@ -23,7 +23,7 @@ let package = Package(
     .testTarget(
       name: "NanoSVGTests",
       dependencies: ["NanoSVG"],
-      path: "Swift/Tests"
+      path: "Swift/Tests",
     ),
   ]
 )

@@ -5,7 +5,7 @@ import Foundation
 /// Provides access to the parsed contents of an SVG document.
 public final class SVGImage {
   /// The underlying C NSVGimage pointer.
-  private let underlying: UnsafeMutablePointer<NSVGimage>
+  internal let underlying: UnsafeMutablePointer<NSVGimage>
 
   /// Private initializer to prevent copying.
   private init(underlying: UnsafeMutablePointer<NSVGimage>) {

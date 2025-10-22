@@ -171,3 +171,92 @@ import Testing
   #expect(SVGShape.FillRule.nonzero.rawValue == 0)
   #expect(SVGShape.FillRule.evenOdd.rawValue == 1)
 }
+
+// MARK: - SVGRasterizer Tests
+
+@Test func testSVGRasterizerCreation() async throws {
+  // Test creating a rasterizer
+  let rasterizer = SVGRasterizer()
+  #expect(rasterizer != nil)
+}
+
+@Test func testSVGRasterizerBasicRasterization() async throws {
+  // Test basic rasterization
+  let svgString = """
+    <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="10" height="10" fill="red"/>
+    </svg>
+    """
+
+  guard let image = SVGImage(svgString: svgString) else {
+    Issue.record("Failed to parse SVG")
+    return
+  }
+
+  guard let rasterizer = SVGRasterizer() else {
+    Issue.record("Failed to create rasterizer")
+    return
+  }
+
+  let pixelData = rasterizer.rasterize(
+    image: image,
+    width: 10,
+    height: 10
+  )
+
+  #expect(pixelData != nil)
+  #expect(pixelData!.count == 400)  // 10x10x4 (RGBA)
+}
+
+@Test func testSVGRasterizerNaturalSize() async throws {
+  // Test rasterization at natural size
+  let svgString = """
+    <svg width="5" height="5" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="2.5" cy="2.5" r="2" fill="blue"/>
+    </svg>
+    """
+
+  guard let image = SVGImage(svgString: svgString) else {
+    Issue.record("Failed to parse SVG")
+    return
+  }
+
+  guard let rasterizer = SVGRasterizer() else {
+    Issue.record("Failed to create rasterizer")
+    return
+  }
+
+  let pixelData = rasterizer.rasterize(image: image)
+
+  #expect(pixelData != nil)
+  #expect(pixelData!.count == 100)  // 5x5x4 (RGBA)
+}
+
+@Test func testSVGRasterizerToArray() async throws {
+  // Test rasterization to 2D array
+  let svgString = """
+    <svg width="3" height="3" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="3" height="3" fill="green"/>
+    </svg>
+    """
+
+  guard let image = SVGImage(svgString: svgString) else {
+    Issue.record("Failed to parse SVG")
+    return
+  }
+
+  guard let rasterizer = SVGRasterizer() else {
+    Issue.record("Failed to create rasterizer")
+    return
+  }
+
+  let array2D = rasterizer.rasterizeToArray(
+    image: image,
+    width: 3,
+    height: 3
+  )
+
+  #expect(array2D != nil)
+  #expect(array2D!.count == 3)  // 3 rows
+  #expect(array2D![0].count == 12)  // 3 columns * 4 bytes (RGBA)
+}

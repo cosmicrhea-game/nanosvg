@@ -144,13 +144,13 @@ typedef struct NSVGpath
 
 typedef struct NSVGshape
 {
-	char id[64];				// Optional 'id' attr of the shape or its group
+	char id[64] __attribute__((swift_name("id")));				// Optional 'id' attr of the shape or its group
 	NSVGpaint fill;				// Fill paint
 	NSVGpaint stroke;			// Stroke paint
 	float opacity;				// Opacity of the shape.
 	float strokeWidth;			// Stroke width (scaled).
 	float strokeDashOffset;		// Stroke dash offset (scaled).
-	float strokeDashArray[8];	// Stroke dash array (scaled).
+	float strokeDashArray[8] __attribute__((swift_name("strokeDashArray")));	// Stroke dash array (scaled).
 	char strokeDashCount;		// Number of dash values in dash array.
 	char strokeLineJoin;		// Stroke join type.
 	char strokeLineCap;			// Stroke cap type.
@@ -159,9 +159,9 @@ typedef struct NSVGshape
     unsigned char paintOrder;	// Encoded paint order (3×2-bit fields) see NSVGpaintOrder
 	unsigned char flags;		// Logical or of NSVG_FLAGS_* flags
 	float bounds[4];			// Tight bounding box of the shape [minx,miny,maxx,maxy].
-	char fillGradient[64];		// Optional 'id' of fill gradient
-	char strokeGradient[64];	// Optional 'id' of stroke gradient
-	float xform[6];				// Root transformation for fill/stroke gradient
+	char fillGradient[64] __attribute__((swift_name("fillGradient")));		// Optional 'id' of fill gradient
+	char strokeGradient[64] __attribute__((swift_name("strokeGradient")));	// Optional 'id' of stroke gradient
+	float xform[6] __attribute__((swift_name("xform")));				// Root transformation for fill/stroke gradient
 	NSVGpath* paths;			// Linked list of paths in the image.
 	struct NSVGshape* next;		// Pointer to next shape, or NULL if last element.
 } NSVGshape;
@@ -171,14 +171,14 @@ typedef struct NSVGimage
 	float width;				// Width of the image.
 	float height;				// Height of the image.
 	NSVGshape* shapes;			// Linked list of shapes in the image.
-} NSVGimage;
+} NSVGimage __attribute__((swift_name("NSVGimage")));
 
 // Parses SVG file from a file, returns SVG image as paths.
-NSVGimage* nsvgParseFromFile(const char* filename, const char* units, float dpi);
+NSVGimage* nsvgParseFromFile(const char* filename, const char* units, float dpi) __attribute__((swift_name("nsvgParseFromFile(_:_:_:)")));
 
 // Parses SVG file from a null terminated string, returns SVG image as paths.
 // Important note: changes the string.
-NSVGimage* nsvgParse(char* input, const char* units, float dpi);
+NSVGimage* nsvgParse(char* input, const char* units, float dpi) __attribute__((swift_name("nsvgParse(_:_:_:)")));
 
 // Duplicates a path.
 NSVGpath* nsvgDuplicatePath(NSVGpath* p);
